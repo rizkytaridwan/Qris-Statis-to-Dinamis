@@ -14,7 +14,6 @@ This project provides a web-based QRIS (Quick Response Code Indonesian Standard)
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** Node.js, Express.js
 - **QR Code Generation:** `qrcode` library
-- **Utility Functions:** Custom utility functions for padding and CRC16 checksum calculation
 
 ## Setup
 

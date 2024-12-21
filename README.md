@@ -37,9 +37,10 @@ This project provides a web-based QRIS (Quick Response Code Indonesian Standard)
 3. Start the server:
    ```bash
    npm start
-This will start the server on http://localhost:8000.
+   ```
+   This will start the server on http://localhost:8000.
 
-Endpoints
+##Endpoints
 POST /generate-qris
 This endpoint generates a dynamic QRIS code based on the input parameters.
 Request Body:
@@ -51,4 +52,15 @@ Request Body:
   "fee": "2.5",
   "includeFee": true
 }
+```
+| Parameter   | Tipe     | Deskripsi                                                                                      |
+|-------------|----------|------------------------------------------------------------------------------------------------|
+| `qrisCode`  | `string` | The static QRIS code (e.g., `0102115802ID...`).                                                |
+| `nominal`   | `number` | The nominal value (in Rupiah) to be processed.                                                 |
+| `feeType`   | `string` | The type of fee, either:                                                                       |
+|             |          | - `"r"` for Rupiah (fixed amount)                                                              |
+|             |          | - `"p"` for percentage (a percentage of the nominal)                                           |
+| `fee`       | `number` | The service fee value. This can either be a fixed amount (if `feeType` is `"r"`) or a percentage (if `feeType` is `"p"`). |
+| `includeFee`| `boolean`| Whether to include the fee in the final amount. If `true`, the fee will be added to the nominal value, otherwise, it will be excluded. |
+
 

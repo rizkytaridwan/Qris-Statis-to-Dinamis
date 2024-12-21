@@ -56,7 +56,7 @@ Request Body:
 }
 ```
 
-## Respone
+## response
 
 ```bash
 {

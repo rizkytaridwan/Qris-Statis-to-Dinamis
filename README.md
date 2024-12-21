@@ -27,7 +27,7 @@ This project provides a web-based QRIS (Quick Response Code Indonesian Standard)
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/qris-code-generator.git
+   git clone https://github.com/rizkytaridwan/Qris-Statis-to-Dinamis.git
    cd qris-code-generator
    ```
 2. Install dependencies:

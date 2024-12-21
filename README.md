@@ -41,7 +41,8 @@ This project provides a web-based QRIS (Quick Response Code Indonesian Standard)
    ```
    This will start the server on http://localhost:8000.
 
-##Endpoints
+## Endpoints
+
 POST /generate-qris
 This endpoint generates a dynamic QRIS code based on the input parameters.
 Request Body:

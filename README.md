@@ -30,3 +30,25 @@ This project provides a web-based QRIS (Quick Response Code Indonesian Standard)
    ```bash
    git clone https://github.com/your-username/qris-code-generator.git
    cd qris-code-generator
+
+2. Install dependencies:
+   ```bash
+   npm install
+3. Start the server:
+   ```bash
+   npm start
+This will start the server on http://localhost:8000.
+
+Endpoints
+POST /generate-qris
+This endpoint generates a dynamic QRIS code based on the input parameters.
+Request Body:
+```bash
+{
+  "qrisCode": "QRIS_CODE",
+  "nominal": "100000",
+  "feeType": "p",
+  "fee": "2.5",
+  "includeFee": true
+}
+

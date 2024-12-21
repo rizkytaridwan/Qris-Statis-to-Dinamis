@@ -56,7 +56,7 @@ Request Body:
 }
 ```
 
-## response
+## Response
 
 ```bash
 {
@@ -64,6 +64,8 @@ Request Body:
   "output": "QRIS_CODE_OUTPUT_STRING"
 }
 ```
+
+##
 | Parameter   | Tipe     | Deskripsi                                                                                      |
 |-------------|----------|------------------------------------------------------------------------------------------------|
 | `qrisCode`  | `string` | The static QRIS code (e.g., `0102115802ID...`).                                                |

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRIS Code Generator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>QRIS Statis To Dinamis</h1>
+
+        <form id="qris-form" onsubmit="event.preventDefault(); generateQris();">
+            <label for="qris-code">Input QRIS Code:</label>
+            <input type="text" id="qris-code" required>
+        
+            <label for="nominal">Nominal:</label>
+            <input type="text" id="nominal" required oninput="formatNominal(); calculateTotal()">
+        
+            <div class="toggle-container">
+                <label for="include-fee">Include Service Fee:</label>
+                <label class="switch toggle-switch">
+                    <input type="checkbox" id="include-fee" onchange="toggleFeeOptions()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <div id="fee-options" style="display: none;">
+                <label for="tax-type">Fee Type:</label>
+                <select name="tax-type" id="tax-type" onchange="calculateTotal()">
+                    <option value="r">Rupiah</option>
+                    <option value="p">Percent</option>
+                </select>
+            
+                <label for="fee">Fee:</label>
+                <div class="fee-container">
+                    <span id="fee-label" class="fee-label">Rp</span>
+                    <input type="number" id="fee" oninput="calculateTotal()">
+                </div>
+            </div>
+            
+
+            <div id="total-display">Total: Rp. 0</div>
+        
+            <button type="submit">Generate QR Code</button>
+        </form>
+        
+        <div id="error-message"></div>
+        <div id="qr-code-display"></div>
+    </div>
+
+    <script>
+        function formatNominal() {
+            const nominalInput = document.getElementById('nominal');
+            let value = nominalInput.value.replace(/\D/g, '');
+            
+            if (value) {
+                value = parseInt(value).toLocaleString('id-ID');
+                nominalInput.value = value;
+            } else {
+                nominalInput.value = ''; 
+            }
+            calculateTotal();
+        }
+    
+        function toggleFeeOptions() {
+            const feeOptions = document.getElementById('fee-options');
+            const includeFeeCheckbox = document.getElementById('include-fee');
+            const feeInput = document.getElementById('fee');
+
+            if (includeFeeCheckbox.checked) {
+                feeOptions.style.display = 'block';
+                feeInput.required = true;
+            } else {
+                feeOptions.style.display = 'none';
+                feeInput.required = false;
+                feeInput.value = 0;
+                document.getElementById('fee-label').innerText = 'Rp';
+                calculateTotal();
+            }
+        }
+
+        function calculateTotal() {
+            const nominal = document.getElementById('nominal').value.replace(/\D/g, ''); 
+            const feeType = document.getElementById('tax-type').value; 
+            const fee = parseFloat(document.getElementById('fee').value) || 0;
+    
+            let total = parseInt(nominal, 10) || 0; 
+    
+            if (document.getElementById('include-fee').checked) {
+                if (feeType === 'p') { 
+                    total += (total * (fee / 100));
+                } else if (feeType === 'r') { 
+                    total += fee;
+                }
+            }
+    
+            document.getElementById('total-display').innerText = `Total: Rp. ${total.toLocaleString('id-ID')}`;
+        }
+    
+        async function generateQris() {
+            document.getElementById('error-message').textContent = '';
+            document.getElementById('qr-code-display').innerHTML = '';
+    
+            const qrisCode = document.getElementById('qris-code').value;
+            const nominal = document.getElementById('nominal').value.replace(/\D/g, '');
+            const includeFee = document.getElementById('include-fee').checked; 
+            const feeType = includeFee ? document.getElementById('tax-type').value : 'r'; 
+            const fee = includeFee ? document.getElementById('fee').value : '0'; 
+    
+            if (!qrisCode || !nominal) {
+                document.getElementById('error-message').textContent = "Please enter all required fields.";
+                return;
+            }
+    
+            try {
+                const response = await fetch('/generate-qris', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ qrisCode, nominal, feeType, fee, includeFee })
+                });
+    
+                if (!response.ok) throw new Error('Failed to generate QR code. Please check the server.');
+    
+                const data = await response.json();
+                document.getElementById('qr-code-display').innerHTML = `<img src="${data.qrCode}" alt="QR Code">`;
+            } catch (error) {
+                console.error(error);
+                document.getElementById('error-message').textContent = error.message;
+            }
+        }
+    </script>
+</body>
+</html>

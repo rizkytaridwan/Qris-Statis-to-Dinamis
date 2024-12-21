@@ -54,7 +54,7 @@ Request Body:
 }
 ```
 
-#Response:
+## Response:
 ```bash
 {
   "qrCode": "data:image/png;base64,...",

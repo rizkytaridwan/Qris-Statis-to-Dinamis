@@ -30,10 +30,11 @@ This project provides a web-based QRIS (Quick Response Code Indonesian Standard)
    ```bash
    git clone https://github.com/your-username/qris-code-generator.git
    cd qris-code-generator
-
+   ```
 2. Install dependencies:
    ```bash
    npm install
+   ```
 3. Start the server:
    ```bash
    npm start
@@ -54,7 +55,8 @@ Request Body:
 }
 ```
 
-## Response:
+## Respone
+
 ```bash
 {
   "qrCode": "data:image/png;base64,...",

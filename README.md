@@ -53,13 +53,21 @@ Request Body:
   "includeFee": true
 }
 ```
+
+#Response:
+```bash
+{
+  "qrCode": "data:image/png;base64,...",
+  "output": "QRIS_CODE_OUTPUT_STRING"
+}
+```
 | Parameter   | Tipe     | Deskripsi                                                                                      |
 |-------------|----------|------------------------------------------------------------------------------------------------|
 | `qrisCode`  | `string` | The static QRIS code (e.g., `0102115802ID...`).                                                |
 | `nominal`   | `number` | The nominal value (in Rupiah) to be processed.                                                 |
 | `feeType`   | `string` | The type of fee, either:                                                                       |
-|             |          | - `"r"` for Rupiah (fixed amount)                                                              |
-|             |          | - `"p"` for percentage (a percentage of the nominal)                                           |
+|             |          |  `"r"` for Rupiah (fixed amount)                                                              |
+|             |          |  `"p"` for percentage (a percentage of the nominal)                                           |
 | `fee`       | `number` | The service fee value. This can either be a fixed amount (if `feeType` is `"r"`) or a percentage (if `feeType` is `"p"`). |
 | `includeFee`| `boolean`| Whether to include the fee in the final amount. If `true`, the fee will be added to the nominal value, otherwise, it will be excluded. |
 

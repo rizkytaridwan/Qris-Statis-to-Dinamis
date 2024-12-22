@@ -65,7 +65,7 @@ This endpoint generates a dynamic QRIS code based on the input parameters.
 ```
 
 ##
-| Parameter   | Tipe     | Deskripsi                                                                                      |
+| Parameter   | Type     | Description                                                                                      |
 |-------------|----------|------------------------------------------------------------------------------------------------|
 | `qrisCode`  | `string` | The static QRIS code (e.g., `0102115802ID...`).                                                |
 | `nominal`   | `number` | The nominal value (in Rupiah) to be processed.                                                 |

@@ -17,6 +17,7 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "public")));
 
 const qrCodeStore = new Map();
+
 app.post("/generate-qris", (req, res) => {
   const { qrisCode, nominal, feeType, fee } = req.body;
 
@@ -29,7 +30,6 @@ app.post("/generate-qris", (req, res) => {
   try {
     let adjustedNominal = parseInt(nominal, 10);
     let tax = parseFloat(fee);
-    let taxtype = feeType;
 
     if (isNaN(adjustedNominal) || adjustedNominal < 0) {
       return res.status(400).json({ error: "Invalid nominal value" });
@@ -38,9 +38,9 @@ app.post("/generate-qris", (req, res) => {
       return res.status(400).json({ error: "Invalid fee value" });
     }
 
-    if (taxtype === "p") {
+    if (feeType === "p") {
       adjustedNominal += adjustedNominal * (tax / 100);
-    } else if (taxtype === "r") {
+    } else if (feeType === "r") {
       adjustedNominal += tax;
     }
 
@@ -48,8 +48,9 @@ app.post("/generate-qris", (req, res) => {
     let replaceQris = qris2.replace("010211", "010212");
     let pecahQris = replaceQris.split("5802ID");
     let uang = "54" + pad(adjustedNominal.toString().length) + adjustedNominal;
+
     let taxString =
-      taxtype === "p"
+      feeType === "p"
         ? "55020357" + pad(fee.toString().length) + fee
         : "55020256" + pad(fee.toString().length) + fee;
     uang += taxString.length === 0 ? "5802ID" : taxString + "5802ID";
@@ -71,6 +72,7 @@ app.post("/generate-qris", (req, res) => {
       .json({ error: "An error occurred while processing the QRIS code" });
   }
 });
+
 app.listen(PORT, () =>
   console.log(`Server running on http://localhost:${PORT}`)
 );
